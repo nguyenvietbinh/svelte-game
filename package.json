@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "svelte-environment-variables": "^1.0.4"
+  }
+}
