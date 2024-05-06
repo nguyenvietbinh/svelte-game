@@ -1,6 +1,6 @@
 <script>
     import HomePage from "./homePage.svelte";
-    import LevelOne from "./mapOne.svelte";
+    import MapOne from "./mapOne.svelte";
     import Demo from "./demo.svelte";
     let homePageDisplay = false
     function handleData(event) {
@@ -9,7 +9,7 @@
 </script>
 
 <HomePage on:sendData={handleData}/>
-
 {#if homePageDisplay === true}
-    <LevelOne />
+    <MapOne />
+    
 {/if}

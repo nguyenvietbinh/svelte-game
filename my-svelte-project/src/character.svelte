@@ -10,11 +10,17 @@
         onTheGround: true,
         falling: false,
      }, gravity = 0.5, velocity = 10, isPass = false, numberOfHole, leftLimit = 4, rightLimit = 1166, bottomLimit = 370,
-     isDeath = false, data = mapOneData
+     isDeath = false, data = mapOneData, screenHeight, screenWidth
     function sendData() {
         dispatch('sendData', [characterX, characterY])
     }
     function move() {
+        if (isDeath) {
+            leftLimit = 4, rightLimit = 1166, bottomLimit = 370, characterX = 100, characterY = 370
+            character.style.backgroundColor = 'black'
+            isDeath = false
+            characterDirection.falling = false
+        }
         if (!isPass && !isDeath) {
             if (characterDirection.left) {
                 if (characterX >= leftLimit) {
@@ -80,17 +86,16 @@
         if (isDeath) {
             setTimeout(function() {
                 leftLimit = 4, rightLimit = 1166, bottomLimit = 370, characterX = 100, characterY = 370
-                character.style.backgroundColor = 'red'
+                character.style.backgroundColor = 'black'
                 isDeath = false
             }, 1000)
         }
     }
     import { onMount } from "svelte";
     onMount(() => {
-        if (isDeath) {
-            console.log('as')
-        }
         character = document.querySelector('.character')
+        screenHeight = screen.height
+        screenWidth = screen.width
         character.style.left = `${characterX}px`
         character.style.top = `${characterY}px`
         document.addEventListener('keydown', function(event) {
@@ -122,16 +127,10 @@
         })
     })
 </script>
-{#if isDeath === true}
-    <script>
-        
-    </script>
-{/if}
 <div class="character">
     <div class="rightEye"></div>
     <div class="leftEye"></div>
 </div>
-
 <style>
     .character {
         display: block;
