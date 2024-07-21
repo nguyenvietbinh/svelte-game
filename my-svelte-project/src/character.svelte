@@ -1,7 +1,6 @@
 <script>
     import { createEventDispatcher } from "svelte";
     const dispatch = createEventDispatcher()
-    export let mapOneData
     let character, characterX = 100,
      characterY = 370, characterDirection = {
         left: false,
@@ -9,19 +8,49 @@
         jumpping: false,
         onTheGround: true,
         falling: false,
-     }, gravity = 0.5, velocity = 10, isPass = false, numberOfHole, leftLimit = 4, rightLimit = 1166, bottomLimit = 370,
-     isDeath = false, data = mapOneData, screenHeight, screenWidth
+     }, gravity = 0.5, velocity = 10, moveNextPage = false, numberOfHole, leftLimit = 4, rightLimit = 1166, bottomLimit = 370,
+     isDeath = false, data, screenHeight, screenWidth, currentlyMap,isPass = false
+    import { count, mapData, charX, charY } from "./store.js"
+    count.subscribe(value => {
+        currentlyMap = value
+    })
+    charX.subscribe(value => {
+        characterX = value
+        console.log(characterX)
+    })
+    charY.subscribe(value => {
+        characterY = value
+        console.log(characterY)
+    })
+    mapData.subscribe(value => {
+        data = value
+    })
     function sendData() {
-        dispatch('sendData', [characterX, characterY])
+        dispatch('sendData', [characterX, characterY, isDeath])
     }
     function move() {
+        if (isPass) {
+            characterX = 0
+            isPass = false
+            console.log(characterX, characterY)
+            count.update(currentlyMap => {
+                return currentlyMap+1
+            })
+            charX.update(characterX => {
+                return characterX
+            })            
+            charY.update(characterY => {
+                return characterY
+            })
+
+        }
         if (isDeath) {
             leftLimit = 4, rightLimit = 1166, bottomLimit = 370, characterX = 100, characterY = 370
             character.style.backgroundColor = 'black'
             isDeath = false
             characterDirection.falling = false
         }
-        if (!isPass && !isDeath) {
+        if (!isDeath) {
             if (characterDirection.left) {
                 if (characterX >= leftLimit) {
                     characterX -= 4
@@ -71,7 +100,7 @@
         }
     }
     function isPassCheck() {
-        if ((characterX >= 1070 & characterX <= 1130) & (characterY >= 340)) {
+        if (characterX >= 1166) {
             isPass = true
         }
     }
@@ -79,16 +108,6 @@
         if(characterY === 570) {
             character.style.backgroundColor = 'red'
             isDeath = true
-        }
-    }
-    function revival() {
-        console.log('as')
-        if (isDeath) {
-            setTimeout(function() {
-                leftLimit = 4, rightLimit = 1166, bottomLimit = 370, characterX = 100, characterY = 370
-                character.style.backgroundColor = 'black'
-                isDeath = false
-            }, 1000)
         }
     }
     import { onMount } from "svelte";

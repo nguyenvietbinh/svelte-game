@@ -1,6 +1,7 @@
 <script>
-    let characterX, isDeath, characterY, hole1, hole2, data = {
-        hole: [900, 200, 100, 100]
+    let characterX, isDeath, characterY, data = {
+    hole: [600, 200],
+    object: [700, 100, 50, 900, 100, 50]
     }, currentlyMap
     import Character from "./character.svelte";
     import { count, mapData } from './store.js'
@@ -12,40 +13,17 @@
         characterY = event.detail[1]
         isDeath = event.detail[2]
     }
-    function holeIsOpen() {
-        if(characterX >= 190) {
-            hole1.style.display = 'block'
-        }
-        if(characterX >= 800) {
-            hole2.style.display = 'block'
-        }
-        requestAnimationFrame(holeIsOpen)
-    }
-    function holeIsClose() {
-        if(isDeath) {
-            hole1.style.display = 'none'
-            hole2.style.display = 'none'
-        }
-        requestAnimationFrame(holeIsClose)
-    }
-    import { onMount } from "svelte";
-    onMount(() => {
-        hole1 = document.querySelector('.hole1')
-        hole2 = document.querySelector('.hole2')
-        requestAnimationFrame(holeIsOpen)
-        requestAnimationFrame(holeIsClose)
-    })
 </script>
 
 <div class="backGround">
     <div class="stage">
-        <div class="hole1"></div>
-        <div class="hole2"></div>
-        {#if currentlyMap === 1}
-            <Character on:sendData={handleData}/>
+        <div class="hole"></div>
+        <div class="object1"></div>
+        <div class="object2"></div>
+        {#if currentlyMap === 2}
+            <Character mapTwoData={data} on:sendData={handleData}/>
         {/if}
-        
-        <div class="page">1</div>
+        <div class="page">2</div>
     </div>
 </div>
 
@@ -68,23 +46,24 @@
         left: calc(50% - 600px);
         top: calc(50% - 300px);
     }
-    .hole2 {
-        display: none;
-        width: 100px;
+    .hole {
+        display: block;
+        width: 600px;
         height: 200px;
         background-color: rgb(180, 180, 180);
         position: absolute;
         top: 400px;
-        left: 900px;
+        left: 500px;
     }
-    .hole1 {
-        display: none;
+    .object1 {
+        display: block;
         width: 100px;
-        height: 200px;
-        background-color: rgb(180, 180, 180);
+        height: 50px;
+        background-color: rgb(90, 90, 90);
         position: absolute;
-        top: 400px;
-        left: 200px;
+        left: 700px;
+        top: 450px;
+
     }
     .page {
         display: block;
