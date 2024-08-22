@@ -42,11 +42,11 @@
             charY.update(characterY => {
                 return characterY
             })
-
         }
         if (isDeath) {
             leftLimit = 4, rightLimit = 1166, bottomLimit = 370, characterX = 100, characterY = 370
             character.style.backgroundColor = 'black'
+            bottomLimit = 370
             isDeath = false
             characterDirection.falling = false
         }
@@ -76,6 +76,7 @@
                 bottomLimit = 570
                 characterY += velocity
                 if (characterY >= bottomLimit) {
+                    characterDirection.falling = false
                     characterY = bottomLimit
                     velocity = 10
                 }
@@ -93,9 +94,10 @@
         numberOfHole = data.hole.length/2
         for (let i = 0; i < numberOfHole; i ++) {
             if ((characterX >= data.hole[i]) && (characterX <= (data.hole[i] + data.hole[i+numberOfHole] - 30)) && characterDirection.onTheGround) {
-                characterDirection.falling = true
+                bottomLimit = 600
                 leftLimit = data.hole[i] + 4
                 rightLimit = data.hole[i] + data.hole[i+numberOfHole] - 34
+                characterDirection.falling = true
             }
         }
     }
@@ -105,7 +107,7 @@
         }
     }
     function isDeathCheck() {
-        if(characterY === 570) {
+        if(characterY >= 560) {
             character.style.backgroundColor = 'red'
             isDeath = true
         }
@@ -125,7 +127,7 @@
                 characterDirection.right = true
             }
             if (event.keyCode === 32 || event.keyCode === 87) {
-                if (!character.jumpping) {
+                if (!character.jumpping && !characterDirection.falling) {
                     characterDirection.jumpping = true
                     characterDirection.onTheGround = false
                 }

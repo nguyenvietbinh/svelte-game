@@ -61,7 +61,7 @@
         height: 50px;
         background-color: rgb(90, 90, 90);
         position: absolute;
-        left: 700px;
+        left: 600px;
         top: 450px;
 
     }

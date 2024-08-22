@@ -5,7 +5,6 @@
     import UpdateData from "./updateData.svelte";
     import { count } from './store.js'
 
-    
     let homePageDisplay = false, currentlyMap
     function handleDataFromHomePage(event) {
         homePageDisplay = event.detail

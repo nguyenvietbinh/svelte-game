@@ -1,6 +1,6 @@
 <script>
     let mapOneData = {hole: [900, 200, 100, 100]},
-        mapTwoData = {hole: [500, 200]},
+        mapTwoData = {hole: [500, 500]},
         data = [mapOneData, mapTwoData]
 
     let currentlyMap
